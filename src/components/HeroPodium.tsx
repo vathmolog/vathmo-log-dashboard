@@ -68,116 +68,98 @@ export const HeroPodium: React.FC<HeroPodiumProps> = ({
           </div>
         </div>
 
-        {/* Podium Container with Absolute Text Overlays visually resting directly on top of the pedestals */}
+        {/* Podium Container with Percentage-Anchored Overlays for Zero Overflow on Mobile */}
         <div className="mt-4 relative rounded-2xl overflow-hidden border border-[#00f0ff]/30 shadow-[0_0_35px_rgba(0,240,255,0.18)] bg-[#070e22]/90">
           <GreekMeander color="#00f0ff" height={8} />
 
-          <div className="p-4 sm:p-6 md:p-8">
-            <div className="relative w-full max-w-4xl mx-auto rounded-xl overflow-hidden border border-[#00f0ff]/40 shadow-2xl bg-[#091124]">
+          <div className="p-3 sm:p-6 md:p-8">
+            <div className="podium-container">
               {/* Champions Podium Base Image */}
               <img
                 src="https://i.imgur.com/cwk8I8D.jpeg"
                 alt="Champions Podium"
-                className="w-full h-auto block object-cover filter contrast-110 brightness-95"
+                className="podium-image"
               />
 
               {/* Gradient vignette for text contrast */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/70 via-transparent to-transparent pointer-events-none" />
 
-              {/* #2 SILVER PEDESTAL OVERLAY (Left Pedestal: lowered to sit directly on top of pedestal step) */}
+              {/* #2 SILVER PEDESTAL OVERLAY (Left Pedestal) */}
               {second && (
                 <div
                   onClick={() => onPlayerClick?.(second)}
-                  style={{
-                    position: 'absolute',
-                    top: '56%',
-                    left: '21%',
-                    transform: 'translate(-50%, -100%)'
-                  }}
-                  className="w-[28%] max-w-[210px] text-center cursor-pointer group z-20"
+                  className="podium-card-silver text-center cursor-pointer group"
                 >
-                  <div className="cyber-panel rounded-lg sm:rounded-xl p-1.5 sm:p-2.5 md:p-3 border border-slate-300/70 shadow-[0_0_20px_rgba(148,163,184,0.4)] backdrop-blur-md transition-all duration-300 group-hover:scale-105 group-hover:border-slate-200">
-                    <div className="inline-flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded-full bg-slate-800/90 border border-slate-300 text-slate-200 font-orbitron text-[9px] sm:text-[11px] font-black uppercase tracking-wider mb-1 shadow">
-                      <Trophy className="w-3 h-3 text-slate-300" />
+                  <div className="podium-box cyber-panel border border-slate-300/70 shadow-[0_0_20px_rgba(148,163,184,0.4)] group-hover:scale-105 group-hover:border-slate-200">
+                    <div className="podium-badge inline-flex items-center gap-1 rounded-full bg-slate-800/90 border border-slate-300 text-slate-200 font-orbitron font-black uppercase shadow">
+                      <Trophy className="w-3 h-3 text-slate-300 shrink-0" />
                       <span>#2 Silver</span>
                     </div>
 
-                    <h3 className="font-cinzel text-xs sm:text-base font-bold text-white tracking-wide truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] group-hover:text-cyan-300">
+                    <h3 className="podium-name font-cinzel font-bold text-white tracking-wide truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] group-hover:text-cyan-300">
                       {second.playerName}
                     </h3>
 
-                    <div className="mt-1 inline-block px-1.5 sm:px-2 py-0.5 rounded bg-[#070e22]/90 border border-cyan-400/40 text-emerald-400 font-orbitron text-[10px] sm:text-xs font-bold">
+                    <div className="podium-rate inline-block rounded bg-[#070e22]/90 border border-cyan-400/40 text-emerald-400 font-orbitron font-bold">
                       {second.winRate}% Win Rate
                     </div>
 
-                    <div className="mt-0.5 text-[9px] sm:text-[11px] font-rajdhani text-slate-300 font-semibold tracking-wider">
-                      <span className="text-cyan-300 font-bold">{second.wins}</span> Victories / {second.matchesPlayed} M
+                    <div className="podium-sub font-rajdhani text-slate-300 font-semibold tracking-wider">
+                      <span className="text-cyan-300 font-bold">{second.wins}</span> W / {second.matchesPlayed} M
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* #1 GOLD PEDESTAL OVERLAY (Center / Tallest Pedestal: lowered to sit directly on top of gold platform) */}
+              {/* #1 GOLD PEDESTAL OVERLAY (Center / Tallest Pedestal) */}
               {first && (
                 <div
                   onClick={() => onPlayerClick?.(first)}
-                  style={{
-                    position: 'absolute',
-                    top: '46%',
-                    left: '50%',
-                    transform: 'translate(-50%, -100%)'
-                  }}
-                  className="w-[32%] max-w-[245px] text-center cursor-pointer group z-30"
+                  className="podium-card-gold text-center cursor-pointer group"
                 >
-                  <div className="cyber-panel-gold rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-3.5 border-2 border-[#d4af37] shadow-[0_0_30px_rgba(212,175,55,0.7)] backdrop-blur-md transition-all duration-300 group-hover:scale-105 group-hover:border-yellow-300">
-                    <div className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#d4af37] via-amber-300 to-[#d4af37] text-black font-orbitron text-[10px] sm:text-xs font-black uppercase tracking-wider mb-1.5 shadow-[0_0_12px_rgba(212,175,55,0.8)]">
-                      <Crown className="w-3.5 h-3.5 fill-current" />
+                  <div className="podium-box cyber-panel-gold border-2 border-[#d4af37] shadow-[0_0_30px_rgba(212,175,55,0.7)] group-hover:scale-105 group-hover:border-yellow-300">
+                    <div className="podium-badge inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#d4af37] via-amber-300 to-[#d4af37] text-black font-orbitron font-black uppercase shadow-[0_0_12px_rgba(212,175,55,0.8)]">
+                      <Crown className="w-3.5 h-3.5 fill-current shrink-0" />
                       <span>#1 Champion</span>
                     </div>
 
-                    <h3 className="font-cinzel text-sm sm:text-lg font-black text-white tracking-wide truncate drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] group-hover:text-amber-300">
+                    <h3 className="podium-name font-cinzel font-black text-white tracking-wide truncate drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] group-hover:text-amber-300">
                       {first.playerName}
                     </h3>
 
-                    <div className="mt-1 inline-block px-1.5 sm:px-2 py-0.5 rounded bg-[#091124]/95 border border-[#d4af37]/60 text-amber-300 font-orbitron text-[11px] sm:text-sm font-black drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]">
+                    <div className="podium-rate inline-block rounded bg-[#091124]/95 border border-[#d4af37]/60 text-amber-300 font-orbitron font-black drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]">
                       {first.winRate}% Win Rate
                     </div>
 
-                    <div className="mt-0.5 text-[10px] sm:text-xs font-rajdhani text-amber-100 font-semibold tracking-wider">
-                      <span className="text-cyan-300 font-bold">{first.wins}</span> Victories / {first.matchesPlayed} M
+                    <div className="podium-sub font-rajdhani text-amber-100 font-semibold tracking-wider">
+                      <span className="text-cyan-300 font-bold">{first.wins}</span> W / {first.matchesPlayed} M
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* #3 BRONZE PEDESTAL OVERLAY (Right Pedestal: lowered to sit directly on top of bronze step) */}
+              {/* #3 BRONZE PEDESTAL OVERLAY (Right Pedestal) */}
               {third && (
                 <div
                   onClick={() => onPlayerClick?.(third)}
-                  style={{
-                    position: 'absolute',
-                    top: '62%',
-                    left: '79%',
-                    transform: 'translate(-50%, -100%)'
-                  }}
-                  className="w-[28%] max-w-[210px] text-center cursor-pointer group z-20"
+                  className="podium-card-bronze text-center cursor-pointer group"
                 >
-                  <div className="cyber-panel rounded-lg sm:rounded-xl p-1.5 sm:p-2.5 md:p-3 border border-amber-700/70 shadow-[0_0_20px_rgba(180,83,9,0.4)] backdrop-blur-md transition-all duration-300 group-hover:scale-105 group-hover:border-amber-500">
-                    <div className="inline-flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded-full bg-[#1e130c]/90 border border-amber-600 text-amber-400 font-orbitron text-[9px] sm:text-[11px] font-black uppercase tracking-wider mb-1 shadow">
-                      <Trophy className="w-3 h-3 text-amber-500" />
+                  <div className="podium-box cyber-panel border border-amber-700/70 shadow-[0_0_20px_rgba(180,83,9,0.4)] group-hover:scale-105 group-hover:border-amber-500">
+                    <div className="podium-badge inline-flex items-center gap-1 rounded-full bg-[#1e130c]/90 border border-amber-600 text-amber-400 font-orbitron font-black uppercase shadow">
+                      <Trophy className="w-3 h-3 text-amber-500 shrink-0" />
                       <span>#3 Bronze</span>
                     </div>
 
-                    <h3 className="font-cinzel text-xs sm:text-base font-bold text-white tracking-wide truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] group-hover:text-cyan-300">
+                    <h3 className="podium-name font-cinzel font-bold text-white tracking-wide truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] group-hover:text-cyan-300">
                       {third.playerName}
                     </h3>
 
-                    <div className="mt-1 inline-block px-1.5 sm:px-2 py-0.5 rounded bg-[#070e22]/90 border border-amber-700/50 text-amber-400 font-orbitron text-[10px] sm:text-xs font-bold">
+                    <div className="podium-rate inline-block rounded bg-[#070e22]/90 border border-amber-700/50 text-amber-400 font-orbitron font-bold">
                       {third.winRate}% Win Rate
                     </div>
 
-                    <div className="mt-0.5 text-[9px] sm:text-[11px] font-rajdhani text-slate-300 font-semibold tracking-wider">
-                      <span className="text-cyan-300 font-bold">{third.wins}</span> Victories / {third.matchesPlayed} M
+                    <div className="podium-sub font-rajdhani text-slate-300 font-semibold tracking-wider">
+                      <span className="text-cyan-300 font-bold">{third.wins}</span> W / {third.matchesPlayed} M
                     </div>
                   </div>
                 </div>
