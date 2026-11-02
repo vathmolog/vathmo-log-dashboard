@@ -455,7 +455,7 @@
 
   <script>
     const SHEET_ID = '1ji8pAKGX72ND-giHEbKLBxCJZz8OkKc7o67W4CNGKzc';
-    const DEFAULT_MATCH_THUMBNAIL = 'https://i.imgur.com/pgCLemg.jpeg';
+    const DEFAULT_MATCH_THUMBNAIL = 'https://i.imgur.com/JLhuB2S.jpeg';
     const DEFAULT_AVATAR = 'https://i.imgur.com/pgCLemg.jpeg';
 
     function parseCSV(text) {
@@ -558,7 +558,7 @@
             const totalBattlesEl = document.getElementById('total-battles-stat');
             if (totalBattlesEl) totalBattlesEl.textContent = matches.length;
 
-            renderRecentMatches(matches.slice(0, 5));
+            renderRecentMatches(matches.slice(0, 3));
           }
         }
       } catch (err) {
@@ -614,7 +614,7 @@
     function renderRecentMatches(matches) {
       const grid = document.getElementById('recent-matches-grid');
       if (matches.length === 0) return;
-      grid.innerHTML = matches.slice(0, 5).map(m => `
+      grid.innerHTML = matches.slice(0, 3).map(m => `
         <a href="${m.facebookVideoUrl}" target="_blank" rel="noopener noreferrer" class="cyber-panel rounded-xl overflow-hidden border border-[#00f0ff]/30 hover:border-[#00f0ff] transition-all duration-300 hover:-translate-y-1 block group">
           <div class="relative aspect-video bg-slate-900 overflow-hidden">
             <img src="${DEFAULT_MATCH_THUMBNAIL}" alt="${m.gameMode}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='${DEFAULT_MATCH_THUMBNAIL}'" />

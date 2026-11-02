@@ -26,9 +26,9 @@ export interface MatchRecord {
 }
 
 export const SHEET_ID = '1ji8pAKGX72ND-giHEbKLBxCJZz8OkKc7o67W4CNGKzc';
-export const VIDEO_PLACEHOLDER_URL = 'https://i.imgur.com/pgCLemg.jpeg';
+export const VIDEO_PLACEHOLDER_URL = 'https://i.imgur.com/JLhuB2S.jpeg';
 export const DEFAULT_AVATAR_URL = 'https://i.imgur.com/pgCLemg.jpeg';
-export const DEFAULT_MATCH_THUMBNAIL_URL = 'https://i.imgur.com/pgCLemg.jpeg';
+export const DEFAULT_MATCH_THUMBNAIL_URL = 'https://i.imgur.com/JLhuB2S.jpeg';
 
 /**
  * Standard CSV parser handling quotes, commas, and line breaks.
@@ -202,10 +202,10 @@ export function processAllMatchRows(rows: string[][]): MatchRecord[] {
 }
 
 /**
- * Returns strictly the 5 most recent matches for the dashboard feed.
+ * Returns strictly the 3 most recent matches for the dashboard feed.
  */
 export function processMatchRows(rows: string[][]): MatchRecord[] {
-  return processAllMatchRows(rows).slice(0, 5);
+  return processAllMatchRows(rows).slice(0, 3);
 }
 
 export interface LiveSheetDataResult {
@@ -258,7 +258,7 @@ export async function fetchLiveSheetData(): Promise<LiveSheetDataResult> {
           const allMatches = processAllMatchRows(matchRows);
           return {
             leaderboard: processLeaderboardRows(lbRows),
-            matches: allMatches.slice(0, 5),
+            matches: allMatches.slice(0, 3),
             totalBattles: allMatches.length,
             isLoaded: true
           };
@@ -274,7 +274,7 @@ export async function fetchLiveSheetData(): Promise<LiveSheetDataResult> {
 
     return {
       leaderboard: processLeaderboardRows(lbRows),
-      matches: allMatches.slice(0, 5),
+      matches: allMatches.slice(0, 3),
       totalBattles: allMatches.length,
       isLoaded: true
     };

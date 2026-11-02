@@ -7,8 +7,8 @@ interface RecentMatchesProps {
 }
 
 export const RecentMatches: React.FC<RecentMatchesProps> = ({ matches }) => {
-  // Strictly enforce 5 most recent matches without any category filtering UI
-  const recentFive = matches.slice(0, 5);
+  // Strictly enforce 3 most recent matches without any category filtering UI
+  const recentThree = matches.slice(0, 3);
 
   return (
     <section id="matches" className="relative py-12 bg-[#040814]">
@@ -25,10 +25,10 @@ export const RecentMatches: React.FC<RecentMatchesProps> = ({ matches }) => {
           </div>
         </div>
 
-        {/* Recent Matches CSS Grid (5 most recent fetched video cards) */}
+        {/* Recent Matches CSS Grid (3 most recent fetched video cards) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {recentFive.length > 0 ? (
-            recentFive.map((match) => {
+          {recentThree.length > 0 ? (
+            recentThree.map((match) => {
               const isTeamAWinner =
                 match.winningTeam.toLowerCase().includes('team a') ||
                 match.winningTeam.toLowerCase() === 'team 1' ||
