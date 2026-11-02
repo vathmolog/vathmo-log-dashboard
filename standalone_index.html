@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vathmo Log Leaderboard</title>
+  <meta name="description" content="Sports-style Greco-Futurist gaming leaderboard and recent match tracker for Vathmo Log (VL)." />
+  <link rel="icon" type="image/png" href="https://i.imgur.com/BxZyuk9.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #040814;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+    .font-orbitron { font-family: 'Orbitron', monospace; }
+    .font-rajdhani { font-family: 'Rajdhani', sans-serif; }
+
+    .cyber-panel {
+      background: linear-gradient(135deg, rgba(21, 34, 68, 0.75) 0%, rgba(11, 19, 41, 0.9) 100%);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+    }
+    .cyber-panel-gold {
+      background: linear-gradient(135deg, rgba(35, 28, 15, 0.85) 0%, rgba(15, 20, 35, 0.95) 100%);
+      border: 2px solid #d4af37;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 175, 55, 0.5);
+    }
+    .greek-meander {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='12' viewBox='0 0 28 12'%3E%3Cpath d='M0 1 h26 v10 h-8 v-6 h-8 v3 h4 v-1 h-2' fill='none' stroke='%2300f0ff' stroke-width='1.5' opacity='0.8'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      height: 12px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#040814]">
+  <!-- Top Navbar -->
+  <header class="sticky top-0 z-50 bg-[#060b18]/90 backdrop-blur-md border-b border-[#00f0ff]/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo & Brand Title -->
+        <a href="#" class="flex items-center gap-3">
+          <div class="p-1 rounded-lg bg-[#0e172e] border border-[#00f0ff]/30 shadow-[0_0_15px_rgba(0,240,255,0.25)]">
+            <img src="https://i.imgur.com/BxZyuk9.png" alt="VL Logo" class="h-11 w-auto" />
+          </div>
+          <span class="font-cinzel text-xl sm:text-2xl font-bold tracking-wider text-white">
+            VATHMO <span className="text-[#00f0ff]">LOG</span>
+          </span>
+        </a>
+
+        <!-- Quick Nav Anchors -->
+        <nav className="flex items-center gap-6 text-xs uppercase tracking-wider font-rajdhani font-semibold text-slate-300">
+          <a href="#podium" class="hover:text-[#00f0ff] transition-colors">Champions</a>
+          <a href="#leaderboard" class="hover:text-[#00f0ff] transition-colors">Leaderboard</a>
+          <a href="#matches" class="hover:text-[#00f0ff] transition-colors">Recent Battles</a>
+        </nav>
+      </div>
+    </div>
+    <div class="greek-meander"></div>
+  </header>
+
+  <!-- Hero & Champions Podium -->
+  <section id="podium" class="relative pt-6 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="font-cinzel text-3xl sm:text-5xl font-black text-white uppercase tracking-wider mb-2">
+        The Pantheon <span class="text-[#00f0ff]">of Champions</span>
+      </h1>
+      <p class="font-rajdhani text-sm sm:text-base text-slate-300 mb-6">
+        Dynamic tournament standings synchronized live from Google Sheets.
+      </p>
+
+      <!-- Champions Podium with Absolute Overlays Layered on Pedestals -->
+      <div class="cyber-panel rounded-2xl overflow-hidden border border-[#00f0ff]/30 p-4 sm:p-8">
+        <div class="relative w-full max-w-4xl mx-auto rounded-xl overflow-hidden border border-[#00f0ff]/40 shadow-2xl bg-[#091124]">
+          <img src="https://i.imgur.com/cwk8I8D.jpeg" alt="Champions Podium" class="w-full h-auto block object-cover filter contrast-110 brightness-95" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#040814]/70 via-transparent to-transparent pointer-events-none"></div>
+
+          <!-- #2 Silver Pedestal Overlay (Left: lowered to sit directly on top of silver step) -->
+          <div id="podium-second" style="position: absolute; top: 56%; left: 21%; transform: translate(-50%, -100%); display: none;" class="w-[28%] max-w-[210px] text-center z-20">
+            <div class="cyber-panel rounded-xl p-2 sm:p-3 border border-slate-300/70 shadow-[0_0_15px_rgba(148,163,184,0.3)] backdrop-blur-md">
+              <span class="inline-block px-2 py-0.5 rounded-full bg-slate-800 border border-slate-300 text-slate-200 font-orbitron text-[9px] sm:text-[11px] font-bold mb-1">#2 Silver</span>
+              <h3 id="podium-second-name" class="font-cinzel text-xs sm:text-base font-bold text-white truncate">-</h3>
+              <div id="podium-second-rate" class="mt-1 text-emerald-400 font-orbitron text-[10px] sm:text-xs font-bold">-</div>
+              <div id="podium-second-wins" class="text-[9px] sm:text-[11px] font-rajdhani text-slate-300">-</div>
+            </div>
+          </div>
+
+          <!-- #1 Gold Pedestal Overlay (Center: lowered to sit directly on top of gold platform) -->
+          <div id="podium-first" style="position: absolute; top: 46%; left: 50%; transform: translate(-50%, -100%); display: none;" class="w-[32%] max-w-[245px] text-center z-30">
+            <div class="cyber-panel-gold rounded-xl p-2 sm:p-3.5 border-2 border-[#d4af37] shadow-[0_0_25px_rgba(212,175,55,0.6)] backdrop-blur-md">
+              <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#d4af37] text-black font-orbitron text-[10px] sm:text-xs font-black mb-1">#1 Champion</span>
+              <h3 id="podium-first-name" class="font-cinzel text-sm sm:text-lg font-black text-white truncate">-</h3>
+              <div id="podium-first-rate" class="mt-1 text-amber-300 font-orbitron text-[11px] sm:text-sm font-black">-</div>
+              <div id="podium-first-wins" class="text-[10px] sm:text-xs font-rajdhani text-amber-100 font-semibold">-</div>
+            </div>
+          </div>
+
+          <!-- #3 Bronze Pedestal Overlay (Right: lowered to sit directly on top of bronze step) -->
+          <div id="podium-third" style="position: absolute; top: 62%; left: 79%; transform: translate(-50%, -100%); display: none;" class="w-[28%] max-w-[210px] text-center z-20">
+            <div class="cyber-panel rounded-xl p-2 sm:p-3 border border-amber-700/70 shadow-[0_0_15px_rgba(180,83,9,0.3)] backdrop-blur-md">
+              <span class="inline-block px-2 py-0.5 rounded-full bg-[#1e130c] border border-amber-600 text-amber-400 font-orbitron text-[9px] sm:text-[11px] font-bold mb-1">#3 Bronze</span>
+              <h3 id="podium-third-name" class="font-cinzel text-xs sm:text-base font-bold text-white truncate">-</h3>
+              <div id="podium-third-rate" class="mt-1 text-amber-400 font-orbitron text-[10px] sm:text-xs font-bold">-</div>
+              <div id="podium-third-wins" class="text-[9px] sm:text-[11px] font-rajdhani text-slate-300">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leaderboard Table Section -->
+  <section id="leaderboard" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div class="cyber-panel rounded-xl overflow-hidden border border-[#00f0ff]/30">
+      <div class="p-4 bg-[#091124] border-b border-slate-800 flex items-center justify-between">
+        <h2 class="font-cinzel text-xl font-bold text-white">Calculated Leaderboard</h2>
+        <span class="text-xs font-rajdhani text-cyan-400">Sorted by Wins, Win Rate (%) Tie-Breaker</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left font-rajdhani text-sm">
+          <thead>
+            <tr class="bg-[#070e20] text-slate-400 uppercase text-xs">
+              <th class="p-3">Rank</th>
+              <th class="p-3">Player Name</th>
+              <th class="p-3 text-center">Matches</th>
+              <th class="p-3 text-center text-cyan-400">Wins</th>
+              <th class="p-3 text-center">Losses</th>
+              <th class="p-3 text-right">Win Rate (%)</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body" class="divide-y divide-slate-800">
+            <tr>
+              <td colspan="6" class="p-6 text-center text-slate-400 font-rajdhani">
+                Connecting to live Google Sheet records...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Matches Section (No filters, strictly 5 most recent fetched video cards) -->
+  <section id="matches" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+    <div class="mb-6">
+      <h2 class="font-cinzel text-2xl font-bold text-white">
+        Recent Battles <span class="text-[#00f0ff]">& Match Archive</span>
+      </h2>
+    </div>
+    <div id="recent-matches-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="col-span-full py-8 text-center text-slate-400 font-rajdhani">
+        Loading recent match streams...
+      </div>
+    </div>
+  </section>
+
+  <!-- Clean Footer (No source links, requested simple text) -->
+  <footer class="bg-[#030610] border-t border-slate-800 py-8 text-center">
+    <div class="greek-meander mb-4"></div>
+    <div class="max-w-7xl mx-auto px-4 text-xs font-rajdhani text-slate-400 space-y-2">
+      <p class="text-sm text-slate-300">
+        The official leaderboard and match tracking portal for the VL gaming community.
+      </p>
+      <p class="text-slate-500">© 2026 Vathmo Log. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const SHEET_ID = '1ji8pAKGX72ND-giHEbKLBxCJZz8OkKc7o67W4CNGKzc';
+    const VIDEO_PLACEHOLDER = 'https://i.imgur.com/JLhuB2S.jpeg';
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let col = '';
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        const next = text[i + 1];
+        if (c === '"') {
+          if (inQuotes && next === '"') { col += '"'; i++; }
+          else { inQuotes = !inQuotes; }
+        } else if (c === ',' && !inQuotes) {
+          row.push(col.trim()); col = '';
+        } else if ((c === '\r' || c === '\n') && !inQuotes) {
+          if (c === '\r' && next === '\n') { i++; }
+          row.push(col.trim());
+          if (row.some(x => x.length > 0)) rows.push(row);
+          row = []; col = '';
+        } else {
+          col += c;
+        }
+      }
+      if (col || row.length > 0) {
+        row.push(col.trim());
+        if (row.some(x => x.length > 0)) rows.push(row);
+      }
+      return rows;
+    }
+
+    async function loadLiveData() {
+      // 1. Fetch Calculated Leaderboard tab
+      const lbUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Calculated%20Leaderboard`;
+      const matchesUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Raw%20Submissions`;
+
+      try {
+        const [resLb, resMatches] = await Promise.all([
+          fetch(lbUrl, { cache: 'no-store' }),
+          fetch(matchesUrl, { cache: 'no-store' })
+        ]);
+
+        if (resLb.ok) {
+          const lbText = await resLb.text();
+          if (!lbText.includes('<!DOCTYPE') && lbText.includes(',')) {
+            const rows = parseCSV(lbText);
+            const players = [];
+            for (let i = 1; i < rows.length; i++) {
+              const r = rows[i];
+              if (!r || !r[0]) continue;
+              const name = r[0].replace(/^["']|["']$/g, '').trim();
+              const matches = parseInt(r[1] || '0', 10) || 0;
+              const wins = parseInt(r[2] || '0', 10) || 0;
+              const losses = parseInt(r[3] || '0', 10) || 0;
+              const rateRaw = (r[4] || '0').replace(/[%'"]/g, '').trim();
+              const winRate = parseFloat(rateRaw) || (matches > 0 ? Math.round((wins / matches) * 1000) / 10 : 0);
+              players.push({ playerName: name, matchesPlayed: matches, wins, losses, winRate });
+            }
+
+            // Sort: Wins desc, Win Rate desc tie-breaker
+            players.sort((a, b) => b.wins !== a.wins ? b.wins - a.wins : b.winRate - a.winRate);
+            players.forEach((p, idx) => p.rank = idx + 1);
+
+            renderPodium(players);
+            renderLeaderboard(players);
+          }
+        }
+
+        if (resMatches.ok) {
+          const mText = await resMatches.text();
+          if (!mText.includes('<!DOCTYPE') && mText.includes(',')) {
+            const mRows = parseCSV(mText);
+            const matches = [];
+            for (let i = 1; i < mRows.length; i++) {
+              const r = mRows[i];
+              if (!r || r.length < 2) continue;
+              const time = r[0]?.replace(/^["']|["']$/g, '').trim() || 'Recent';
+              const mode = r[1]?.replace(/^["']|["']$/g, '').trim() || 'Ranked Match';
+              const teamA = r[2]?.replace(/^["']|["']$/g, '').trim() || 'Team Alpha';
+              const teamB = r[3]?.replace(/^["']|["']$/g, '').trim() || 'Team Beta';
+              const winTeam = r[4]?.replace(/^["']|["']$/g, '').trim() || 'Team A';
+              const fb = r[5]?.replace(/^["']|["']$/g, '').trim() || 'https://www.facebook.com/watch';
+              const thumb = r[6]?.replace(/^["']|["']$/g, '').trim() || VIDEO_PLACEHOLDER;
+              matches.push({ timestamp: time, gameMode: mode, teamA, teamB, winningTeam: winTeam, facebookVideoUrl: fb, thumbnailUrl: thumb });
+            }
+            renderRecentMatches(matches.slice(0, 5));
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to fetch Google Sheet CSV:', err);
+      }
+    }
+
+    function renderPodium(players) {
+      if (players[0]) {
+        document.getElementById('podium-first').style.display = 'block';
+        document.getElementById('podium-first-name').textContent = players[0].playerName;
+        document.getElementById('podium-first-rate').textContent = players[0].winRate + '% Win Rate';
+        document.getElementById('podium-first-wins').textContent = players[0].wins + ' Wins / ' + players[0].matchesPlayed + ' M';
+      }
+      if (players[1]) {
+        document.getElementById('podium-second').style.display = 'block';
+        document.getElementById('podium-second-name').textContent = players[1].playerName;
+        document.getElementById('podium-second-rate').textContent = players[1].winRate + '% Win Rate';
+        document.getElementById('podium-second-wins').textContent = players[1].wins + ' Wins / ' + players[1].matchesPlayed + ' M';
+      }
+      if (players[2]) {
+        document.getElementById('podium-third').style.display = 'block';
+        document.getElementById('podium-third-name').textContent = players[2].playerName;
+        document.getElementById('podium-third-rate').textContent = players[2].winRate + '% Win Rate';
+        document.getElementById('podium-third-wins').textContent = players[2].wins + ' Wins / ' + players[2].matchesPlayed + ' M';
+      }
+    }
+
+    function renderLeaderboard(players) {
+      const tbody = document.getElementById('leaderboard-body');
+      if (players.length === 0) return;
+      tbody.innerHTML = players.map(p => `
+        <tr class="hover:bg-[#0c1630] transition-colors">
+          <td class="p-3 font-orbitron font-bold ${p.rank === 1 ? 'text-amber-400' : p.rank === 2 ? 'text-slate-300' : p.rank === 3 ? 'text-amber-600' : 'text-slate-400'}">#${p.rank}</td>
+          <td class="p-3 font-cinzel font-bold text-white">${p.playerName}</td>
+          <td class="p-3 text-center">${p.matchesPlayed}</td>
+          <td class="p-3 text-center text-cyan-300 font-bold">${p.wins}</td>
+          <td class="p-3 text-center text-rose-400">${p.losses}</td>
+          <td class="p-3 text-right font-orbitron font-bold text-emerald-400">${p.winRate}%</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderRecentMatches(matches) {
+      const grid = document.getElementById('recent-matches-grid');
+      if (matches.length === 0) return;
+      grid.innerHTML = matches.slice(0, 5).map(m => `
+        <a href="${m.facebookVideoUrl}" target="_blank" rel="noopener noreferrer" class="cyber-panel rounded-xl overflow-hidden border border-[#00f0ff]/30 hover:border-[#00f0ff] transition-all duration-300 hover:-translate-y-1 block">
+          <div class="relative aspect-video bg-slate-900">
+            <img src="${m.thumbnailUrl || VIDEO_PLACEHOLDER}" alt="${m.gameMode}" class="w-full h-full object-cover" onerror="this.src='${VIDEO_PLACEHOLDER}'" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#060b18] via-black/40 to-black/20"></div>
+            <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/80 border border-cyan-400 text-cyan-300 font-rajdhani text-xs font-bold uppercase">${m.gameMode}</div>
+            <div class="absolute bottom-2 left-2 text-[11px] font-rajdhani text-slate-300">${m.timestamp}</div>
+          </div>
+          <div class="p-4 space-y-2">
+            <div class="text-xs text-slate-300 font-rajdhani"><strong>Team A:</strong> ${m.teamA}</div>
+            <div class="text-xs text-slate-300 font-rajdhani"><strong>Team B:</strong> ${m.teamB}</div>
+            <div class="pt-2 border-t border-slate-800 flex justify-between text-xs font-rajdhani">
+              <span class="text-slate-400">Winner: <span class="text-cyan-300 font-bold">${m.winningTeam}</span></span>
+              <span class="text-cyan-400 font-bold hover:underline">Watch Video →</span>
+            </div>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    loadLiveData();
+  </script>
+</body>
+</html>

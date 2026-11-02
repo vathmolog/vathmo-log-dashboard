@@ -1,0 +1,6 @@
+{
+  "name": "Vathmo Log Leaderboard",
+  "description": "Sports-style Greco-Futurist gaming leaderboard and recent match tracker for Vathmo Log (VL).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --vl-navy-dark: #040814;
+    --vl-navy-deep: #070e24;
+    --vl-steel-dark: #0f1830;
+    --vl-steel-mid: #152244;
+    --vl-steel-light: #1f3263;
+    --vl-cyan-neon: #00f0ff;
+    --vl-cyan-glow: rgba(0, 240, 255, 0.45);
+    --vl-gold-accent: #d4af37;
+  }
+
+  body {
+    background-color: #040814;
+    color: #e2e8f0;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-cinzel {
+    font-family: 'Cinzel', serif;
+  }
+
+  .font-orbitron {
+    font-family: 'Orbitron', monospace;
+  }
+
+  .font-rajdhani {
+    font-family: 'Rajdhani', sans-serif;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #070e24;
+}
+::-webkit-scrollbar-thumb {
+  background: #1f3263;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 240, 255, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00f0ff;
+}
+
+/* Metallic Cyber Panels */
+.cyber-panel {
+  background: linear-gradient(135deg, rgba(21, 34, 68, 0.75) 0%, rgba(11, 19, 41, 0.9) 100%);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.cyber-panel-gold {
+  background: linear-gradient(135deg, rgba(35, 28, 15, 0.85) 0%, rgba(15, 20, 35, 0.95) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+.cyber-panel-glow {
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.18), inset 0 0 15px rgba(0, 240, 255, 0.05);
+}
+
+/* Beveled cyber corners */
+.cyber-corner-tr {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+}
+
+.cyber-corner-all {
+  clip-path: polygon(
+    12px 0%, calc(100% - 12px) 0%, 
+    100% 12px, 100% calc(100% - 12px), 
+    calc(100% - 12px) 100%, 12px 100%, 
+    0% calc(100% - 12px), 0% 12px
+  );
+}
+
+/* Glowing Neon Cyan Button */
+.btn-cyber-cyan {
+  background: linear-gradient(135deg, #00f0ff 0%, #0099ff 100%);
+  color: #030712;
+  font-weight: 700;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.25s ease-out;
+}
+
+.btn-cyber-cyan:hover {
+  background: linear-gradient(135deg, #33f3ff 0%, #00b4ff 100%);
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Greek Key Meander Repeating Pattern */
+.bg-greek-meander {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 20px,
+    rgba(0, 240, 255, 0.05) 20px,
+    rgba(0, 240, 255, 0.05) 40px
+  );
+}
+
+/* Subtle Grid Background */
+.bg-cyber-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+}
