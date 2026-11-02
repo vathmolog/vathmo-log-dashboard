@@ -118,7 +118,7 @@
 }
 
 /* =========================================================================
-   Podium Container & Percentage-Anchored Overlay Text Cards
+   Base Podium Container & Image Elements
    ========================================================================= */
 
 .podium-container {
@@ -132,60 +132,136 @@
   background-color: #091124;
   border: 1px solid rgba(0, 240, 255, 0.4);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-  aspect-ratio: 16 / 9;
 }
 
 .podium-image {
   width: 100%;
-  height: 100%;
   display: block;
   object-fit: cover;
   filter: contrast(110%) brightness(95%);
 }
 
-/* Pure percentage-anchored pedestal overlays */
-.podium-card-silver {
-  position: absolute;
-  top: 56%;
-  left: 21%;
-  width: 27%;
-  max-width: 210px;
-  transform: translate(-50%, -100%);
-  z-index: 20;
-}
+/* =========================================================================
+   1. DESKTOP VIEW (@media (min-width: 769px))
+   Restores original spacious padding, comfortable font sizes, legible margins
+   and expansive placement perfectly resting on the pedestals for laptops.
+   ========================================================================= */
+@media (min-width: 769px) {
+  .podium-container {
+    aspect-ratio: 16 / 9;
+  }
 
-.podium-card-gold {
-  position: absolute;
-  top: 46%;
-  left: 50%;
-  width: 32%;
-  max-width: 245px;
-  transform: translate(-50%, -100%);
-  z-index: 30;
-}
+  .podium-image {
+    height: 100%;
+    object-position: center;
+  }
 
-.podium-card-bronze {
-  position: absolute;
-  top: 62%;
-  left: 79%;
-  width: 27%;
-  max-width: 210px;
-  transform: translate(-50%, -100%);
-  z-index: 20;
-}
+  .podium-card-silver {
+    position: absolute;
+    top: 56%;
+    left: 21%;
+    width: 28%;
+    max-width: 230px;
+    transform: translate(-50%, -100%);
+    z-index: 20;
+  }
 
-.podium-box {
-  border-radius: 0.75rem;
-  padding: 0.75rem;
-  text-align: center;
-  backdrop-filter: blur(12px);
-  transition: all 0.3s ease;
+  .podium-card-gold {
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    width: 32%;
+    max-width: 265px;
+    transform: translate(-50%, -100%);
+    z-index: 30;
+  }
+
+  .podium-card-bronze {
+    position: absolute;
+    top: 62%;
+    left: 79%;
+    width: 28%;
+    max-width: 230px;
+    transform: translate(-50%, -100%);
+    z-index: 20;
+  }
+
+  .podium-box {
+    border-radius: 0.875rem;
+    padding: 0.85rem 1rem;
+    text-align: center;
+    backdrop-filter: blur(14px);
+    transition: all 0.3s ease;
+  }
+
+  .podium-box-gold {
+    padding: 1.1rem 1.25rem;
+  }
+
+  .podium-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.75rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.35rem;
+  }
+
+  .podium-badge svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .podium-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.025em;
+    line-height: 1.25;
+    margin-top: 0.125rem;
+  }
+
+  .podium-name-gold {
+    font-size: 1.35rem;
+    font-weight: 900;
+  }
+
+  .podium-rate {
+    display: inline-block;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
+    font-weight: 800;
+    padding: 0.25rem 0.65rem;
+    border-radius: 0.375rem;
+    margin-top: 0.35rem;
+  }
+
+  .podium-rate-gold {
+    font-size: 0.95rem;
+    font-weight: 900;
+  }
+
+  .podium-sub {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
+    line-height: 1.2;
+  }
 }
 
 /* =========================================================================
-   Mobile Responsiveness Media Queries for Podium Section
+   2. MOBILE VIEW (@media (max-width: 768px))
+   Retains the responsive percentage-based anchors and reduced font sizes
+   to guarantee zero text clipping or overlapping on mobile phones.
    ========================================================================= */
-
 @media (max-width: 768px) {
   .podium-container {
     aspect-ratio: 16 / 10;
@@ -197,63 +273,100 @@
     object-position: center bottom;
   }
 
-  /* Percentage anchors remain strictly percentage based */
   .podium-card-silver {
+    position: absolute;
     top: 56%;
     left: 20%;
     width: 28%;
     max-width: none;
+    transform: translate(-50%, -100%);
+    z-index: 20;
   }
 
   .podium-card-gold {
+    position: absolute;
     top: 46%;
     left: 50%;
     width: 33%;
     max-width: none;
+    transform: translate(-50%, -100%);
+    z-index: 30;
   }
 
   .podium-card-bronze {
+    position: absolute;
     top: 62%;
     left: 80%;
     width: 28%;
     max-width: none;
+    transform: translate(-50%, -100%);
+    z-index: 20;
   }
 
-  /* Significantly reduced padding, font sizes, and margins for mobile screens */
   .podium-box {
-    padding: 0.25rem 0.3rem !important;
-    border-radius: 0.375rem !important;
-    margin: 0 !important;
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.3rem;
+    margin: 0;
+    text-align: center;
+    backdrop-filter: blur(8px);
+  }
+
+  .podium-box-gold {
+    padding: 0.3rem 0.35rem;
   }
 
   .podium-badge {
-    font-size: 0.55rem !important;
-    padding: 1px 4px !important;
-    margin-bottom: 2px !important;
-    letter-spacing: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.55rem;
+    font-weight: 800;
+    padding: 1px 4px;
+    border-radius: 9999px;
+    margin-bottom: 2px;
+    letter-spacing: 0;
+    text-transform: uppercase;
   }
 
   .podium-badge svg {
-    width: 0.65rem !important;
-    height: 0.65rem !important;
+    width: 0.625rem;
+    height: 0.625rem;
   }
 
   .podium-name {
-    font-size: 0.65rem !important;
-    line-height: 1.1 !important;
-    margin-top: 1px !important;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-top: 1px;
+  }
+
+  .podium-name-gold {
+    font-size: 0.72rem;
+    font-weight: 900;
   }
 
   .podium-rate {
-    font-size: 0.55rem !important;
-    padding: 1px 3px !important;
-    margin-top: 2px !important;
+    display: inline-block;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    padding: 1px 3px;
+    border-radius: 0.25rem;
+    margin-top: 2px;
+  }
+
+  .podium-rate-gold {
+    font-size: 0.6rem;
   }
 
   .podium-sub {
-    font-size: 0.5rem !important;
-    margin-top: 1px !important;
-    line-height: 1.1 !important;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.5rem;
+    margin-top: 1px;
+    line-height: 1.1;
   }
 }
 
@@ -268,32 +381,33 @@
   }
 
   .podium-box {
-    padding: 2px 3px !important;
-    border-width: 1px !important;
+    padding: 2px 3px;
   }
 
   .podium-badge {
-    font-size: 0.48rem !important;
-    padding: 0px 3px !important;
-    margin-bottom: 1px !important;
+    font-size: 0.48rem;
+    padding: 0 3px;
   }
 
   .podium-badge svg {
-    width: 0.55rem !important;
-    height: 0.55rem !important;
+    width: 0.55rem;
+    height: 0.55rem;
   }
 
   .podium-name {
-    font-size: 0.55rem !important;
-    line-height: 1.05 !important;
+    font-size: 0.55rem;
+  }
+
+  .podium-name-gold {
+    font-size: 0.62rem;
   }
 
   .podium-rate {
-    font-size: 0.48rem !important;
-    padding: 0px 2px !important;
+    font-size: 0.48rem;
+    padding: 0 2px;
   }
 
   .podium-sub {
-    display: none; /* Hide secondary subtext on ultra-narrow viewports to prevent overlap */
+    display: none;
   }
 }

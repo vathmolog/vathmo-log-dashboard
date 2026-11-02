@@ -117,17 +117,17 @@ export const HeroPodium: React.FC<HeroPodiumProps> = ({
                   onClick={() => onPlayerClick?.(first)}
                   className="podium-card-gold text-center cursor-pointer group"
                 >
-                  <div className="podium-box cyber-panel-gold border-2 border-[#d4af37] shadow-[0_0_30px_rgba(212,175,55,0.7)] group-hover:scale-105 group-hover:border-yellow-300">
+                  <div className="podium-box podium-box-gold cyber-panel-gold border-2 border-[#d4af37] shadow-[0_0_30px_rgba(212,175,55,0.7)] group-hover:scale-105 group-hover:border-yellow-300">
                     <div className="podium-badge inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#d4af37] via-amber-300 to-[#d4af37] text-black font-orbitron font-black uppercase shadow-[0_0_12px_rgba(212,175,55,0.8)]">
                       <Crown className="w-3.5 h-3.5 fill-current shrink-0" />
                       <span>#1 Champion</span>
                     </div>
 
-                    <h3 className="podium-name font-cinzel font-black text-white tracking-wide truncate drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] group-hover:text-amber-300">
+                    <h3 className="podium-name podium-name-gold font-cinzel font-black text-white tracking-wide truncate drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] group-hover:text-amber-300">
                       {first.playerName}
                     </h3>
 
-                    <div className="podium-rate inline-block rounded bg-[#091124]/95 border border-[#d4af37]/60 text-amber-300 font-orbitron font-black drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]">
+                    <div className="podium-rate podium-rate-gold inline-block rounded bg-[#091124]/95 border border-[#d4af37]/60 text-amber-300 font-orbitron font-black drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]">
                       {first.winRate}% Win Rate
                     </div>
 
