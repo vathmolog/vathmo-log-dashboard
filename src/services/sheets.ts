@@ -11,6 +11,7 @@ export interface PlayerRecord {
   wins: number;
   losses: number;
   winRate: number; // percentage 0-100
+  avatarUrl: string;
 }
 
 export interface MatchRecord {
@@ -26,6 +27,7 @@ export interface MatchRecord {
 
 export const SHEET_ID = '1ji8pAKGX72ND-giHEbKLBxCJZz8OkKc7o67W4CNGKzc';
 export const VIDEO_PLACEHOLDER_URL = 'https://i.imgur.com/JLhuB2S.jpeg';
+export const DEFAULT_AVATAR_URL = 'https://i.imgur.com/pgCLemg.jpeg';
 
 /**
  * Standard CSV parser handling quotes, commas, and line breaks.
@@ -88,6 +90,9 @@ export function processLeaderboardRows(rows: string[][]): PlayerRecord[] {
   const winsIdx = header.findIndex((h) => h.includes('win') && !h.includes('rate'));
   const lossesIdx = header.findIndex((h) => h.includes('loss') || h.includes('losses'));
   const winRateIdx = header.findIndex((h) => h.includes('rate') || h.includes('%'));
+  const avatarIdx = header.findIndex(
+    (h) => h.includes('profile') || h.includes('picture') || h.includes('avatar') || h.includes('photo') || h.includes('image')
+  );
 
   const parsedPlayers: Omit<PlayerRecord, 'rank'>[] = [];
 
@@ -117,12 +122,19 @@ export function processLeaderboardRows(rows: string[][]): PlayerRecord[] {
       winRate = (wins / (wins + losses)) * 100;
     }
 
+    // Column F (Index 5) Profile Picture URL with fallback logic
+    const rawAvatar = (avatarIdx >= 0 && row[avatarIdx] ? row[avatarIdx] : row[5] || '')
+      .replace(/^["']|["']$/g, '')
+      .trim();
+    const avatarUrl = rawAvatar && rawAvatar.startsWith('http') ? rawAvatar : DEFAULT_AVATAR_URL;
+
     parsedPlayers.push({
       playerName,
       matchesPlayed: matchesPlayed || wins + losses,
       wins,
       losses,
-      winRate: Math.round(winRate * 10) / 10
+      winRate: Math.round(winRate * 10) / 10,
+      avatarUrl
     });
   }
 

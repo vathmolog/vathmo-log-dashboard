@@ -236,9 +236,14 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                         {/* Player Name & Crest */}
                         <td className="py-3.5 px-4 sm:px-6">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-[#0d162d] border border-cyan-500/30 flex items-center justify-center font-cinzel text-xs font-bold text-cyan-300 group-hover:border-cyan-400 transition-colors">
-                              {player.playerName.slice(0, 2).toUpperCase()}
-                            </div>
+                            <img
+                              src={player.avatarUrl || 'https://i.imgur.com/pgCLemg.jpeg'}
+                              alt={player.playerName}
+                              className="w-8 h-8 rounded-full object-cover border border-cyan-400/50 shadow-[0_0_8px_rgba(0,240,255,0.3)] group-hover:border-cyan-300 transition-all shrink-0"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = 'https://i.imgur.com/pgCLemg.jpeg';
+                              }}
+                            />
                             <div>
                               <div className="font-cinzel font-bold text-white group-hover:text-cyan-300 transition-colors flex items-center gap-2">
                                 <span>{player.playerName}</span>

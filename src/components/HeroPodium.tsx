@@ -1,5 +1,5 @@
 import React from 'react';
-import { type PlayerRecord } from '../services/sheets';
+import { type PlayerRecord, DEFAULT_AVATAR_URL } from '../services/sheets';
 import { Crown, Trophy, Sparkles, Flame, Shield } from 'lucide-react';
 import { GreekMeander } from './GreekMeander';
 
@@ -90,6 +90,19 @@ export const HeroPodium: React.FC<HeroPodiumProps> = ({
                   onClick={() => onPlayerClick?.(second)}
                   className="podium-card-silver text-center cursor-pointer group"
                 >
+                  {/* Avatar Centrally Positioned Above Text Card */}
+                  <div className="podium-avatar-wrapper">
+                    <img
+                      src={second.avatarUrl || DEFAULT_AVATAR_URL}
+                      alt={second.playerName}
+                      className="podium-avatar"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = DEFAULT_AVATAR_URL;
+                      }}
+                    />
+                  </div>
+
+                  {/* Text Box */}
                   <div className="podium-box cyber-panel border border-slate-300/70 shadow-[0_0_20px_rgba(148,163,184,0.4)] group-hover:scale-105 group-hover:border-slate-200">
                     <div className="podium-badge inline-flex items-center gap-1 rounded-full bg-slate-800/90 border border-slate-300 text-slate-200 font-orbitron font-black uppercase shadow">
                       <Trophy className="w-3 h-3 text-slate-300 shrink-0" />
@@ -117,6 +130,19 @@ export const HeroPodium: React.FC<HeroPodiumProps> = ({
                   onClick={() => onPlayerClick?.(first)}
                   className="podium-card-gold text-center cursor-pointer group"
                 >
+                  {/* Avatar Centrally Positioned Above Text Card */}
+                  <div className="podium-avatar-wrapper">
+                    <img
+                      src={first.avatarUrl || DEFAULT_AVATAR_URL}
+                      alt={first.playerName}
+                      className="podium-avatar podium-avatar-gold"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = DEFAULT_AVATAR_URL;
+                      }}
+                    />
+                  </div>
+
+                  {/* Text Box */}
                   <div className="podium-box podium-box-gold cyber-panel-gold border-2 border-[#d4af37] shadow-[0_0_30px_rgba(212,175,55,0.7)] group-hover:scale-105 group-hover:border-yellow-300">
                     <div className="podium-badge inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#d4af37] via-amber-300 to-[#d4af37] text-black font-orbitron font-black uppercase shadow-[0_0_12px_rgba(212,175,55,0.8)]">
                       <Crown className="w-3.5 h-3.5 fill-current shrink-0" />
@@ -144,6 +170,19 @@ export const HeroPodium: React.FC<HeroPodiumProps> = ({
                   onClick={() => onPlayerClick?.(third)}
                   className="podium-card-bronze text-center cursor-pointer group"
                 >
+                  {/* Avatar Centrally Positioned Above Text Card */}
+                  <div className="podium-avatar-wrapper">
+                    <img
+                      src={third.avatarUrl || DEFAULT_AVATAR_URL}
+                      alt={third.playerName}
+                      className="podium-avatar"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = DEFAULT_AVATAR_URL;
+                      }}
+                    />
+                  </div>
+
+                  {/* Text Box */}
                   <div className="podium-box cyber-panel border border-amber-700/70 shadow-[0_0_20px_rgba(180,83,9,0.4)] group-hover:scale-105 group-hover:border-amber-500">
                     <div className="podium-badge inline-flex items-center gap-1 rounded-full bg-[#1e130c]/90 border border-amber-600 text-amber-400 font-orbitron font-black uppercase shadow">
                       <Trophy className="w-3 h-3 text-amber-500 shrink-0" />

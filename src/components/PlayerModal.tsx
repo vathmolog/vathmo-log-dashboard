@@ -35,11 +35,14 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
         {/* Modal Header */}
         <div className="p-5 sm:p-6 bg-[#081026] border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-700 p-0.5 shadow-[0_0_15px_rgba(0,240,255,0.4)]">
-              <div className="w-full h-full rounded-[10px] bg-[#070e22] flex items-center justify-center font-cinzel text-xl font-black text-cyan-300">
-                {player.playerName.slice(0, 2).toUpperCase()}
-              </div>
-            </div>
+            <img
+              src={player.avatarUrl || 'https://i.imgur.com/pgCLemg.jpeg'}
+              alt={player.playerName}
+              className="w-14 h-14 rounded-full object-cover border-2 border-[#00f0ff] shadow-[0_0_15px_rgba(0,240,255,0.6)]"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = 'https://i.imgur.com/pgCLemg.jpeg';
+              }}
+            />
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-cinzel text-xl sm:text-2xl font-bold text-white">
