@@ -225,7 +225,7 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ players }) => {
             </h2>
           </div>
           <p className="font-rajdhani text-sm text-slate-400 max-w-md">
-            Visualizing real-time gladiator performance ratios and victory shares directly derived from calculated tournament sheets.
+            Visualizing real-time gladiator performance ratios and victory shares directly derived from official arena records.
           </p>
         </div>
 

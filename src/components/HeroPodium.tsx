@@ -50,7 +50,7 @@ export const HeroPodium: React.FC<HeroPodiumProps> = ({
           </h1>
 
           <p className="mt-2.5 max-w-2xl mx-auto font-rajdhani text-sm sm:text-base text-slate-300 font-medium tracking-wide">
-            Dynamic tournament standings synchronized live from Google Sheets.
+            Dynamic tournament standings and real-time gladiator rankings.
           </p>
 
           {/* Quick HUD Metrics */}

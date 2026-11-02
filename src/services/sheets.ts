@@ -26,8 +26,9 @@ export interface MatchRecord {
 }
 
 export const SHEET_ID = '1ji8pAKGX72ND-giHEbKLBxCJZz8OkKc7o67W4CNGKzc';
-export const VIDEO_PLACEHOLDER_URL = 'https://i.imgur.com/JLhuB2S.jpeg';
+export const VIDEO_PLACEHOLDER_URL = 'https://i.imgur.com/pgCLemg.jpeg';
 export const DEFAULT_AVATAR_URL = 'https://i.imgur.com/pgCLemg.jpeg';
+export const DEFAULT_MATCH_THUMBNAIL_URL = 'https://i.imgur.com/pgCLemg.jpeg';
 
 /**
  * Standard CSV parser handling quotes, commas, and line breaks.
@@ -153,9 +154,12 @@ export function processLeaderboardRows(rows: string[][]): PlayerRecord[] {
 }
 
 /**
- * Normalizes Raw Submissions rows into MatchRecord list and limits to 5 most recent records
+ * Normalizes all valid Raw Submissions rows into MatchRecord list.
+ * Note: 'Match Thumbnail' column has been permanently hidden from database;
+ * the parser automatically injects the static default image (DEFAULT_MATCH_THUMBNAIL_URL)
+ * for all match cards instead of extracting a thumbnail URL from the CSV.
  */
-export function processMatchRows(rows: string[][]): MatchRecord[] {
+export function processAllMatchRows(rows: string[][]): MatchRecord[] {
   if (!rows || rows.length <= 1) return [];
 
   const header = rows[0].map((h) => h.toLowerCase().trim().replace(/['"]/g, ''));
@@ -165,7 +169,6 @@ export function processMatchRows(rows: string[][]): MatchRecord[] {
   const teamBIdx = header.findIndex((h) => h.includes('team b') || h.includes('team 2'));
   const winTeamIdx = header.findIndex((h) => h.includes('winning') || h.includes('winner'));
   const fbIdx = header.findIndex((h) => h.includes('facebook') || h.includes('video') || h.includes('link'));
-  const thumbIdx = header.findIndex((h) => h.includes('thumb') || h.includes('image'));
 
   const matches: MatchRecord[] = [];
 
@@ -175,40 +178,49 @@ export function processMatchRows(rows: string[][]): MatchRecord[] {
 
     const timestamp = (timeIdx >= 0 && row[timeIdx] ? row[timeIdx] : row[0] || '').replace(/^["']|["']$/g, '').trim();
     const gameMode = (modeIdx >= 0 && row[modeIdx] ? row[modeIdx] : row[1] || 'Competitive Match').replace(/^["']|["']$/g, '').trim();
-    const teamA = (teamAIdx >= 0 && row[teamAIdx] ? row[teamAIdx] : row[2] || 'Team Alpha').replace(/^["']|["']$/g, '').trim();
-    const teamB = (teamBIdx >= 0 && row[teamBIdx] ? row[teamBIdx] : row[3] || 'Team Beta').replace(/^["']|["']$/g, '').trim();
-    const winningTeam = (winTeamIdx >= 0 && row[winTeamIdx] ? row[winTeamIdx] : row[4] || 'Team A').replace(/^["']|["']$/g, '').trim();
+    const teamA = (teamAIdx >= 0 && row[teamAIdx] ? row[teamAIdx] : row[2] || '').replace(/^["']|["']$/g, '').trim();
+    const teamB = (teamBIdx >= 0 && row[teamBIdx] ? row[teamBIdx] : row[3] || '').replace(/^["']|["']$/g, '').trim();
+    const winningTeam = (winTeamIdx >= 0 && row[winTeamIdx] ? row[winTeamIdx] : row[4] || 'Undetermined').replace(/^["']|["']$/g, '').trim();
     const rawFb = (fbIdx >= 0 && row[fbIdx] ? row[fbIdx] : row[5] || '').replace(/^["']|["']$/g, '').trim();
-    const rawThumb = (thumbIdx >= 0 && row[thumbIdx] ? row[thumbIdx] : row[6] || '').replace(/^["']|["']$/g, '').trim();
 
-    if (!teamA && !teamB) continue;
+    // Skip empty rows
+    if (!teamA && !teamB && !timestamp) continue;
 
     matches.push({
-      id: `match-${i}-${Date.now() % 10000}`,
+      id: `match-${i}-${timestamp.replace(/[^a-zA-Z0-9]/g, '') || i}`,
       timestamp: timestamp || 'Recent',
       gameMode: gameMode || 'Ranked Match',
       teamA: teamA || 'Team Alpha',
       teamB: teamB || 'Team Beta',
       winningTeam: winningTeam || 'Undetermined',
       facebookVideoUrl: rawFb.startsWith('http') ? rawFb : 'https://www.facebook.com/watch',
-      thumbnailUrl: rawThumb && rawThumb.startsWith('http') ? rawThumb : VIDEO_PLACEHOLDER_URL
+      thumbnailUrl: DEFAULT_MATCH_THUMBNAIL_URL
     });
   }
 
-  // Strictly return the 5 most recent matches
-  return matches.slice(0, 5);
+  return matches;
+}
+
+/**
+ * Returns strictly the 5 most recent matches for the dashboard feed.
+ */
+export function processMatchRows(rows: string[][]): MatchRecord[] {
+  return processAllMatchRows(rows).slice(0, 5);
+}
+
+export interface LiveSheetDataResult {
+  leaderboard: PlayerRecord[];
+  matches: MatchRecord[];
+  totalBattles: number;
+  isLoaded: boolean;
+  error?: string;
 }
 
 /**
  * Live fetch function pulling directly from the public Google Sheet CSV endpoints.
  * Zero hardcoded/mock arrays.
  */
-export async function fetchLiveSheetData(): Promise<{
-  leaderboard: PlayerRecord[];
-  matches: MatchRecord[];
-  isLoaded: boolean;
-  error?: string;
-}> {
+export async function fetchLiveSheetData(): Promise<LiveSheetDataResult> {
   const gvizLeaderboardUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Calculated%20Leaderboard`;
   const gvizMatchesUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Raw%20Submissions`;
 
@@ -243,9 +255,11 @@ export async function fetchLiveSheetData(): Promise<{
         if (!textExpLb.includes('<!DOCTYPE') && textExpLb.includes(',')) {
           const lbRows = parseCSV(textExpLb);
           const matchRows = parseCSV(textExpMatches);
+          const allMatches = processAllMatchRows(matchRows);
           return {
             leaderboard: processLeaderboardRows(lbRows),
-            matches: processMatchRows(matchRows),
+            matches: allMatches.slice(0, 5),
+            totalBattles: allMatches.length,
             isLoaded: true
           };
         }
@@ -256,10 +270,12 @@ export async function fetchLiveSheetData(): Promise<{
 
     const lbRows = parseCSV(textLb);
     const matchRows = parseCSV(textMatches);
+    const allMatches = processAllMatchRows(matchRows);
 
     return {
       leaderboard: processLeaderboardRows(lbRows),
-      matches: processMatchRows(matchRows),
+      matches: allMatches.slice(0, 5),
+      totalBattles: allMatches.length,
       isLoaded: true
     };
   } catch (err: any) {
@@ -267,6 +283,7 @@ export async function fetchLiveSheetData(): Promise<{
     return {
       leaderboard: [],
       matches: [],
+      totalBattles: 0,
       isLoaded: false,
       error: err.message || 'Unable to fetch Google Sheet data'
     };

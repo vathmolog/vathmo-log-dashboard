@@ -16,6 +16,7 @@ export default function App() {
   // Pure live state with zero hardcoded/placeholder arrays
   const [leaderboard, setLeaderboard] = useState<PlayerRecord[]>([]);
   const [matches, setMatches] = useState<MatchRecord[]>([]);
+  const [totalBattles, setTotalBattles] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerRecord | null>(null);
@@ -29,6 +30,7 @@ export default function App() {
       const result = await fetchLiveSheetData();
       setLeaderboard(result.leaderboard);
       setMatches(result.matches);
+      setTotalBattles(result.totalBattles);
       setLastUpdated(new Date());
 
       if (result.error && result.leaderboard.length === 0) {
@@ -62,7 +64,7 @@ export default function App() {
         {/* 1. Hero & Champions Podium Section */}
         <HeroPodium
           topPlayers={leaderboard.slice(0, 3)}
-          totalMatches={matches.length}
+          totalMatches={totalBattles}
           totalPlayers={leaderboard.length}
           dataSource="live-csv"
           onPlayerClick={(player) => setSelectedPlayer(player)}

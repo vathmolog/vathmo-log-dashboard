@@ -330,9 +330,23 @@
       <h1 class="font-cinzel text-3xl sm:text-5xl font-black text-white uppercase tracking-wider mb-2">
         The Pantheon <span class="text-[#00f0ff]">of Champions</span>
       </h1>
-      <p class="font-rajdhani text-sm sm:text-base text-slate-300 mb-6">
-        Dynamic tournament standings synchronized live from Google Sheets.
+      <p class="font-rajdhani text-sm sm:text-base text-slate-300 mb-4">
+        Dynamic tournament standings and real-time gladiator rankings.
       </p>
+
+      <!-- Quick HUD Metrics -->
+      <div class="mb-6 flex flex-wrap justify-center items-center gap-3 sm:gap-6 text-xs sm:text-sm font-rajdhani">
+        <div class="px-3.5 py-1.5 rounded-lg bg-[#0e1730]/80 border border-[#00f0ff]/25 backdrop-blur-sm flex items-center gap-2">
+          <span class="text-cyan-400">🛡️</span>
+          <span class="text-slate-400">Total Combatants:</span>
+          <span id="total-combatants-stat" class="text-white font-bold font-orbitron">-</span>
+        </div>
+        <div class="px-3.5 py-1.5 rounded-lg bg-[#0e1730]/80 border border-[#00f0ff]/25 backdrop-blur-sm flex items-center gap-2">
+          <span class="text-amber-400">🔥</span>
+          <span class="text-slate-400">Total Battles:</span>
+          <span id="total-battles-stat" class="text-white font-bold font-orbitron">-</span>
+        </div>
+      </div>
 
       <!-- Champions Podium with Absolute Overlays Layered on Pedestals -->
       <div class="cyber-panel rounded-2xl overflow-hidden border border-[#00f0ff]/30 p-4 sm:p-8">
@@ -441,7 +455,7 @@
 
   <script>
     const SHEET_ID = '1ji8pAKGX72ND-giHEbKLBxCJZz8OkKc7o67W4CNGKzc';
-    const VIDEO_PLACEHOLDER = 'https://i.imgur.com/JLhuB2S.jpeg';
+    const DEFAULT_MATCH_THUMBNAIL = 'https://i.imgur.com/pgCLemg.jpeg';
     const DEFAULT_AVATAR = 'https://i.imgur.com/pgCLemg.jpeg';
 
     function parseCSV(text) {
@@ -506,6 +520,9 @@
             players.sort((a, b) => b.wins !== a.wins ? b.wins - a.wins : b.winRate - a.winRate);
             players.forEach((p, idx) => p.rank = idx + 1);
 
+            const totalCombatantsEl = document.getElementById('total-combatants-stat');
+            if (totalCombatantsEl) totalCombatantsEl.textContent = players.length;
+
             renderPodium(players);
             renderLeaderboard(players);
           }
@@ -525,14 +542,27 @@
               const teamB = r[3]?.replace(/^["']|["']$/g, '').trim() || 'Team Beta';
               const winTeam = r[4]?.replace(/^["']|["']$/g, '').trim() || 'Team A';
               const fb = r[5]?.replace(/^["']|["']$/g, '').trim() || 'https://www.facebook.com/watch';
-              const thumb = r[6]?.replace(/^["']|["']$/g, '').trim() || VIDEO_PLACEHOLDER;
-              matches.push({ timestamp: time, gameMode: mode, teamA, teamB, winningTeam: winTeam, facebookVideoUrl: fb, thumbnailUrl: thumb });
+              // Automatically inject single, static default image for every match
+              matches.push({
+                timestamp: time,
+                gameMode: mode,
+                teamA,
+                teamB,
+                winningTeam: winTeam,
+                facebookVideoUrl: fb,
+                thumbnailUrl: DEFAULT_MATCH_THUMBNAIL
+              });
             }
+
+            // Dynamically calculate and display the true total recorded battles from raw submissions
+            const totalBattlesEl = document.getElementById('total-battles-stat');
+            if (totalBattlesEl) totalBattlesEl.textContent = matches.length;
+
             renderRecentMatches(matches.slice(0, 5));
           }
         }
       } catch (err) {
-        console.warn('Failed to fetch Google Sheet CSV:', err);
+        console.warn('Failed to fetch arena records:', err);
       }
     }
 
@@ -585,19 +615,26 @@
       const grid = document.getElementById('recent-matches-grid');
       if (matches.length === 0) return;
       grid.innerHTML = matches.slice(0, 5).map(m => `
-        <a href="${m.facebookVideoUrl}" target="_blank" rel="noopener noreferrer" class="cyber-panel rounded-xl overflow-hidden border border-[#00f0ff]/30 hover:border-[#00f0ff] transition-all duration-300 hover:-translate-y-1 block">
-          <div class="relative aspect-video bg-slate-900">
-            <img src="${m.thumbnailUrl || VIDEO_PLACEHOLDER}" alt="${m.gameMode}" class="w-full h-full object-cover" onerror="this.src='${VIDEO_PLACEHOLDER}'" />
+        <a href="${m.facebookVideoUrl}" target="_blank" rel="noopener noreferrer" class="cyber-panel rounded-xl overflow-hidden border border-[#00f0ff]/30 hover:border-[#00f0ff] transition-all duration-300 hover:-translate-y-1 block group">
+          <div class="relative aspect-video bg-slate-900 overflow-hidden">
+            <img src="${DEFAULT_MATCH_THUMBNAIL}" alt="${m.gameMode}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='${DEFAULT_MATCH_THUMBNAIL}'" />
             <div class="absolute inset-0 bg-gradient-to-t from-[#060b18] via-black/40 to-black/20"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="w-10 h-10 rounded-full bg-[#00f0ff]/80 text-black flex items-center justify-center shadow-[0_0_15px_rgba(0,240,255,0.8)] group-hover:scale-110 transition-all">
+                ▶
+              </div>
+            </div>
             <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/80 border border-cyan-400 text-cyan-300 font-rajdhani text-xs font-bold uppercase">${m.gameMode}</div>
             <div class="absolute bottom-2 left-2 text-[11px] font-rajdhani text-slate-300">${m.timestamp}</div>
           </div>
           <div class="p-4 space-y-2">
             <div class="text-xs text-slate-300 font-rajdhani"><strong>Team A:</strong> ${m.teamA}</div>
             <div class="text-xs text-slate-300 font-rajdhani"><strong>Team B:</strong> ${m.teamB}</div>
-            <div class="pt-2 border-t border-slate-800 flex justify-between text-xs font-rajdhani">
+            <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-xs font-rajdhani">
               <span class="text-slate-400">Winner: <span class="text-cyan-300 font-bold">${m.winningTeam}</span></span>
-              <span class="text-cyan-400 font-bold hover:underline">Watch Video →</span>
+              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#00f0ff]/10 border border-[#00f0ff]/40 text-[#00f0ff] font-bold group-hover:bg-[#00f0ff] group-hover:text-black transition-all">
+                Watch Match →
+              </span>
             </div>
           </div>
         </a>

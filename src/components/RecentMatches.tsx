@@ -1,5 +1,5 @@
 import React from 'react';
-import { type MatchRecord, VIDEO_PLACEHOLDER_URL } from '../services/sheets';
+import { type MatchRecord, DEFAULT_MATCH_THUMBNAIL_URL } from '../services/sheets';
 import { Play, ExternalLink, Calendar, Trophy } from 'lucide-react';
 
 interface RecentMatchesProps {
@@ -45,16 +45,16 @@ export const RecentMatches: React.FC<RecentMatchesProps> = ({ matches }) => {
                   href={match.facebookVideoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative cyber-panel rounded-xl overflow-hidden border border-[#00f0ff]/25 hover:border-[#00f0ff] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(0,240,255,0.25)] flex flex-col justify-between"
+                  className="group relative cyber-panel rounded-xl overflow-hidden border border-[#00f0ff]/25 hover:border-[#00f0ff] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(0,240,255,0.25)] flex flex-col justify-between cursor-pointer"
                 >
-                  {/* Card Thumbnail Area with Video Overlay */}
+                  {/* Card Thumbnail Area with Video Overlay - Clicking thumbnail opens video */}
                   <div className="relative aspect-video w-full overflow-hidden bg-slate-900">
                     <img
-                      src={match.thumbnailUrl || VIDEO_PLACEHOLDER_URL}
+                      src={match.thumbnailUrl || DEFAULT_MATCH_THUMBNAIL_URL}
                       alt={`${match.teamA} vs ${match.teamB}`}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = VIDEO_PLACEHOLDER_URL;
+                        (e.target as HTMLImageElement).src = DEFAULT_MATCH_THUMBNAIL_URL;
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#060b18] via-black/40 to-black/20" />
@@ -140,15 +140,16 @@ export const RecentMatches: React.FC<RecentMatchesProps> = ({ matches }) => {
                       </div>
                     </div>
 
-                    {/* Card Footer: Watch Battle CTA */}
+                    {/* Card Footer: Watch Match CTA Button */}
                     <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between">
                       <div className="text-[11px] font-rajdhani text-slate-400">
                         Winning Side: <span className="text-cyan-300 font-bold">{match.winningTeam}</span>
                       </div>
-                      <div className="text-xs font-rajdhani font-bold text-[#00f0ff] group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                        Watch VOD
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#00f0ff]/10 border border-[#00f0ff]/40 text-xs font-rajdhani font-bold text-[#00f0ff] group-hover:bg-[#00f0ff] group-hover:text-slate-950 transition-all duration-200 shadow-sm">
+                        <Play className="w-3 h-3 fill-current" />
+                        Watch Match
                         <ExternalLink className="w-3 h-3" />
-                      </div>
+                      </span>
                     </div>
                   </div>
                 </a>
